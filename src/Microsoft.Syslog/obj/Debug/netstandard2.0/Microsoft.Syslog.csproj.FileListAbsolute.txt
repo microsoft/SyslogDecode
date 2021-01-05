@@ -1,0 +1,9 @@
+C:\git\SEcEngDev-SIEMfx\src\Services\Syslog\MicrosoftSyslogOSS\src\Microsoft.Syslog\obj\Debug\netstandard2.0\Microsoft.Syslog.csprojAssemblyReference.cache
+C:\git\SEcEngDev-SIEMfx\src\Services\Syslog\MicrosoftSyslogOSS\src\Microsoft.Syslog\obj\Debug\netstandard2.0\Microsoft.Syslog.AssemblyInfoInputs.cache
+C:\git\SEcEngDev-SIEMfx\src\Services\Syslog\MicrosoftSyslogOSS\src\Microsoft.Syslog\obj\Debug\netstandard2.0\Microsoft.Syslog.AssemblyInfo.cs
+C:\git\SEcEngDev-SIEMfx\src\Services\Syslog\MicrosoftSyslogOSS\src\Microsoft.Syslog\obj\Debug\netstandard2.0\Microsoft.Syslog.csproj.CoreCompileInputs.cache
+C:\git\SEcEngDev-SIEMfx\src\Services\Syslog\MicrosoftSyslogOSS\src\Microsoft.Syslog\bin\Debug\netstandard2.0\Microsoft.Syslog.deps.json
+C:\git\SEcEngDev-SIEMfx\src\Services\Syslog\MicrosoftSyslogOSS\src\Microsoft.Syslog\bin\Debug\netstandard2.0\Microsoft.Syslog.dll
+C:\git\SEcEngDev-SIEMfx\src\Services\Syslog\MicrosoftSyslogOSS\src\Microsoft.Syslog\bin\Debug\netstandard2.0\Microsoft.Syslog.pdb
+C:\git\SEcEngDev-SIEMfx\src\Services\Syslog\MicrosoftSyslogOSS\src\Microsoft.Syslog\obj\Debug\netstandard2.0\Microsoft.Syslog.dll
+C:\git\SEcEngDev-SIEMfx\src\Services\Syslog\MicrosoftSyslogOSS\src\Microsoft.Syslog\obj\Debug\netstandard2.0\Microsoft.Syslog.pdb

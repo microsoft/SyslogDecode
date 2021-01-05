@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject />
+    <Product>Syslog</Product>
+    <Description>Syslog client (sender), server (listener) components.</Description>
+    <Copyright>Microsoft</Copyright>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageVersion>1.3.0</PackageVersion>
+    <Version>1.3.0</Version>
+    <Authors>Microsoft MSRC</Authors>
+    <Company>Microsoft</Company>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+    <AssemblyName>Microsoft.Syslog</AssemblyName>
+    <RootNamespace>Microsoft.Syslog</RootNamespace>
+  </PropertyGroup>
+
+</Project>

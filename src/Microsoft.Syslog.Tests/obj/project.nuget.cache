@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "iDAhn9fXNgllzSLymdZukhgIncdc2d0a9wBspita2RtTCR768o06JCeYL5wQTkQ1kn5bmtLh304wcoScNwnmAw==",
+  "success": true,
+  "projectFilePath": "C:\\git\\SEcEngDev-SIEMfx\\src\\Services\\Syslog\\MicrosoftSyslogOSS\\src\\Microsoft.Syslog.Tests\\Microsoft.Syslog.Tests.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\roivants\\.nuget\\packages\\microsoft.codecoverage\\15.9.0\\microsoft.codecoverage.15.9.0.nupkg.sha512",
+    "C:\\Users\\roivants\\.nuget\\packages\\microsoft.net.test.sdk\\15.9.0\\microsoft.net.test.sdk.15.9.0.nupkg.sha512",
+    "C:\\Users\\roivants\\.nuget\\packages\\mstest.testadapter\\1.4.0\\mstest.testadapter.1.4.0.nupkg.sha512",
+    "C:\\Users\\roivants\\.nuget\\packages\\mstest.testframework\\1.4.0\\mstest.testframework.1.4.0.nupkg.sha512"
+  ],
+  "logs": []
+}

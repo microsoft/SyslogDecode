@@ -1,0 +1,245 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETFramework,Version=v4.7.2": {
+      "System.Reactive/4.0.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.Windows",
+          "System.Windows.Forms",
+          "WindowsBase"
+        ],
+        "compile": {
+          "lib/net46/System.Reactive.dll": {}
+        },
+        "runtime": {
+          "lib/net46/System.Reactive.dll": {}
+        }
+      },
+      "Tx.Core/3.0.2": {
+        "type": "package",
+        "dependencies": {
+          "System.Reactive": "4.0.0"
+        },
+        "frameworkAssemblies": [
+          "System",
+          "System.Core",
+          "mscorlib"
+        ],
+        "compile": {
+          "lib/net46/Tx.Core.dll": {}
+        },
+        "runtime": {
+          "lib/net46/Tx.Core.dll": {}
+        }
+      },
+      "Tx.Network/3.0.3": {
+        "type": "package",
+        "dependencies": {
+          "System.Reactive": "4.0.0",
+          "Tx.Core": "3.0.2"
+        },
+        "compile": {
+          "lib/net46/Tx.Network.dll": {}
+        },
+        "runtime": {
+          "lib/net46/Tx.Network.dll": {}
+        }
+      },
+      "Microsoft.Syslog/1.3.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "compile": {
+          "bin/placeholder/Microsoft.Syslog.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Microsoft.Syslog.dll": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.7.2/win7-x86": {
+      "System.Reactive/4.0.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.Windows",
+          "System.Windows.Forms",
+          "WindowsBase"
+        ],
+        "compile": {
+          "lib/net46/System.Reactive.dll": {}
+        },
+        "runtime": {
+          "lib/net46/System.Reactive.dll": {}
+        }
+      },
+      "Tx.Core/3.0.2": {
+        "type": "package",
+        "dependencies": {
+          "System.Reactive": "4.0.0"
+        },
+        "frameworkAssemblies": [
+          "System",
+          "System.Core",
+          "mscorlib"
+        ],
+        "compile": {
+          "lib/net46/Tx.Core.dll": {}
+        },
+        "runtime": {
+          "lib/net46/Tx.Core.dll": {}
+        }
+      },
+      "Tx.Network/3.0.3": {
+        "type": "package",
+        "dependencies": {
+          "System.Reactive": "4.0.0",
+          "Tx.Core": "3.0.2"
+        },
+        "compile": {
+          "lib/net46/Tx.Network.dll": {}
+        },
+        "runtime": {
+          "lib/net46/Tx.Network.dll": {}
+        }
+      },
+      "Microsoft.Syslog/1.3.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "compile": {
+          "bin/placeholder/Microsoft.Syslog.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Microsoft.Syslog.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "System.Reactive/4.0.0": {
+      "sha512": "yaVAxT2Yl28p9+DupGwj2oPbIOYZUQimOQ+n7N7vML2oofIRj9BmcfD7DHc6FLrNah65EigOgG6U9VnwWEyz5g==",
+      "type": "package",
+      "path": "system.reactive/4.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net46/System.Reactive.dll",
+        "lib/net46/System.Reactive.xml",
+        "lib/netstandard2.0/System.Reactive.dll",
+        "lib/netstandard2.0/System.Reactive.xml",
+        "lib/uap10.0.16299/System.Reactive.dll",
+        "lib/uap10.0.16299/System.Reactive.pri",
+        "lib/uap10.0.16299/System.Reactive.xml",
+        "lib/uap10.0/System.Reactive.dll",
+        "lib/uap10.0/System.Reactive.pri",
+        "lib/uap10.0/System.Reactive.xml",
+        "system.reactive.4.0.0.nupkg.sha512",
+        "system.reactive.nuspec"
+      ]
+    },
+    "Tx.Core/3.0.2": {
+      "sha512": "T70FmD7y4yyeqqyLfRSMcgmajw8cBKWVp8qc4K6OiLhg869lDQ3ZdWSiQBrAeqosi56heRX+Ba7Q9rgoI282vQ==",
+      "type": "package",
+      "path": "tx.core/3.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/Tx.Core.dll",
+        "lib/net46/Tx.Core.dll",
+        "lib/netstandard2.0/Tx.Core.dll",
+        "tx.core.3.0.2.nupkg.sha512",
+        "tx.core.nuspec"
+      ]
+    },
+    "Tx.Network/3.0.3": {
+      "sha512": "eQx9cSkgINjtlM0uUnAvM9HoaeOxNd28EX8u2pmcrcz/7JQXXSdd+NlmP4DDQv4ZFANUeEq3vzX3Z8F7PRmjeg==",
+      "type": "package",
+      "path": "tx.network/3.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/Tx.Network.dll",
+        "lib/net46/Tx.Network.dll",
+        "lib/netstandard2.0/Tx.Network.dll",
+        "tx.network.3.0.3.nupkg.sha512",
+        "tx.network.nuspec"
+      ]
+    },
+    "Microsoft.Syslog/1.3.0": {
+      "type": "project",
+      "path": "../Microsoft.Syslog/Microsoft.Syslog.csproj",
+      "msbuildProject": "../Microsoft.Syslog/Microsoft.Syslog.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETFramework,Version=v4.7.2": [
+      "Microsoft.Syslog >= 1.3.0",
+      "Tx.Network >= 3.0.3"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\roivants\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+  },
+  "project": {
+    "version": "1.1.0",
+    "restore": {
+      "projectUniqueName": "C:\\git\\SEcEngDev-SIEMfx\\src\\Services\\Syslog\\MicrosoftSyslogOSS\\src\\Microsoft.Syslog.TestLoadApp\\Microsoft.Syslog.TestLoadApp.csproj",
+      "projectName": "Microsoft.Syslog.TestLoadApp",
+      "projectPath": "C:\\git\\SEcEngDev-SIEMfx\\src\\Services\\Syslog\\MicrosoftSyslogOSS\\src\\Microsoft.Syslog.TestLoadApp\\Microsoft.Syslog.TestLoadApp.csproj",
+      "packagesPath": "C:\\Users\\roivants\\.nuget\\packages\\",
+      "outputPath": "C:\\git\\SEcEngDev-SIEMfx\\src\\Services\\Syslog\\MicrosoftSyslogOSS\\src\\Microsoft.Syslog.TestLoadApp\\obj\\",
+      "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
+      "configFilePaths": [
+        "C:\\git\\SEcEngDev-SIEMfx\\NuGet.Config",
+        "C:\\Users\\roivants\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net472"
+      ],
+      "sources": {
+        "https://1ESSharedAssets.pkgs.visualstudio.com/_packaging/Kusto/nuget/v3/index.json": {},
+        "https://msazure.pkgs.visualstudio.com/_packaging/MSNugetMirror/nuget/v3/index.json": {},
+        "https://msazure.pkgs.visualstudio.com/_packaging/NugetMirror/nuget/v3/index.json": {},
+        "https://msazure.pkgs.visualstudio.com/_packaging/Official/nuget/v3/index.json": {},
+        "https://msazure.pkgs.visualstudio.com/defaultcollection/_apis/packaging/manualmirror/nuget/index.json": {},
+        "https://ossmsft.pkgs.visualstudio.com/_packaging/OSS_All/nuget/v3/index.json": {}
+      },
+      "frameworks": {
+        "net472": {
+          "targetAlias": "net472",
+          "projectReferences": {
+            "C:\\git\\SEcEngDev-SIEMfx\\src\\Services\\Syslog\\MicrosoftSyslogOSS\\src\\Microsoft.Syslog\\Microsoft.Syslog.csproj": {
+              "projectPath": "C:\\git\\SEcEngDev-SIEMfx\\src\\Services\\Syslog\\MicrosoftSyslogOSS\\src\\Microsoft.Syslog\\Microsoft.Syslog.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net472": {
+        "targetAlias": "net472",
+        "dependencies": {
+          "Tx.Network": {
+            "target": "Package",
+            "version": "[3.0.3, )"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.404\\RuntimeIdentifierGraph.json"
+      }
+    },
+    "runtimes": {
+      "win7-x86": {
+        "#import": []
+      }
+    }
+  }
+}

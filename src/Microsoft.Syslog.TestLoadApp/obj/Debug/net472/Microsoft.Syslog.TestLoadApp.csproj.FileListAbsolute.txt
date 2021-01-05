@@ -1,0 +1,15 @@
+C:\git\SEcEngDev-SIEMfx\src\Services\Syslog\MicrosoftSyslogOSS\src\Microsoft.Syslog.TestLoadApp\obj\Debug\net472\Microsoft.Syslog.TestLoadApp.csprojAssemblyReference.cache
+C:\git\SEcEngDev-SIEMfx\src\Services\Syslog\MicrosoftSyslogOSS\src\Microsoft.Syslog.TestLoadApp\obj\Debug\net472\Microsoft.Syslog.TestLoadApp.AssemblyInfoInputs.cache
+C:\git\SEcEngDev-SIEMfx\src\Services\Syslog\MicrosoftSyslogOSS\src\Microsoft.Syslog.TestLoadApp\obj\Debug\net472\Microsoft.Syslog.TestLoadApp.AssemblyInfo.cs
+C:\git\SEcEngDev-SIEMfx\src\Services\Syslog\MicrosoftSyslogOSS\src\Microsoft.Syslog.TestLoadApp\obj\Debug\net472\Microsoft.Syslog.TestLoadApp.csproj.CoreCompileInputs.cache
+C:\git\SEcEngDev-SIEMfx\src\Services\Syslog\MicrosoftSyslogOSS\src\Microsoft.Syslog.TestLoadApp\bin\Debug\net472\Microsoft.Syslog.TestLoadApp.exe.config
+C:\git\SEcEngDev-SIEMfx\src\Services\Syslog\MicrosoftSyslogOSS\src\Microsoft.Syslog.TestLoadApp\bin\Debug\net472\Microsoft.Syslog.TestLoadApp.exe
+C:\git\SEcEngDev-SIEMfx\src\Services\Syslog\MicrosoftSyslogOSS\src\Microsoft.Syslog.TestLoadApp\bin\Debug\net472\Microsoft.Syslog.TestLoadApp.pdb
+C:\git\SEcEngDev-SIEMfx\src\Services\Syslog\MicrosoftSyslogOSS\src\Microsoft.Syslog.TestLoadApp\bin\Debug\net472\System.Reactive.dll
+C:\git\SEcEngDev-SIEMfx\src\Services\Syslog\MicrosoftSyslogOSS\src\Microsoft.Syslog.TestLoadApp\bin\Debug\net472\Tx.Core.dll
+C:\git\SEcEngDev-SIEMfx\src\Services\Syslog\MicrosoftSyslogOSS\src\Microsoft.Syslog.TestLoadApp\bin\Debug\net472\Tx.Network.dll
+C:\git\SEcEngDev-SIEMfx\src\Services\Syslog\MicrosoftSyslogOSS\src\Microsoft.Syslog.TestLoadApp\bin\Debug\net472\Microsoft.Syslog.dll
+C:\git\SEcEngDev-SIEMfx\src\Services\Syslog\MicrosoftSyslogOSS\src\Microsoft.Syslog.TestLoadApp\bin\Debug\net472\Microsoft.Syslog.pdb
+C:\git\SEcEngDev-SIEMfx\src\Services\Syslog\MicrosoftSyslogOSS\src\Microsoft.Syslog.TestLoadApp\obj\Debug\net472\Microsoft.Syslog.TestLoadApp.csproj.CopyComplete
+C:\git\SEcEngDev-SIEMfx\src\Services\Syslog\MicrosoftSyslogOSS\src\Microsoft.Syslog.TestLoadApp\obj\Debug\net472\Microsoft.Syslog.TestLoadApp.exe
+C:\git\SEcEngDev-SIEMfx\src\Services\Syslog\MicrosoftSyslogOSS\src\Microsoft.Syslog.TestLoadApp\obj\Debug\net472\Microsoft.Syslog.TestLoadApp.pdb

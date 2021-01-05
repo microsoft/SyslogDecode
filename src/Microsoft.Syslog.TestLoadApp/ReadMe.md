@@ -1,0 +1,4 @@
+﻿# Microsoft.Syslog.TestLoadApp tool
+
+
+

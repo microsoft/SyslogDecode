@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.Syslog</id>
+    <version>1.3.0</version>
+    <authors>Microsoft MSRC</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Syslog client (sender), server (listener) components.</description>
+    <copyright>Microsoft</copyright>
+    <dependencies>
+      <group targetFramework=".NETStandard2.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\git\SEcEngDev-SIEMfx\src\Services\Syslog\MicrosoftSyslogOSS\src\Microsoft.Syslog\bin\Debug\netstandard2.0\Microsoft.Syslog.dll" target="lib\netstandard2.0\Microsoft.Syslog.dll" />
+  </files>
+</package>
