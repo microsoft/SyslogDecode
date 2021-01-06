@@ -26,7 +26,6 @@ namespace Microsoft.Syslog.Model
         /// <remarks>Keys inside element can be repeated (see RFC 5424, example with IP parameter), so element value is a list of pairs, not dictionary.</remarks>
         public IDictionary<string, IList<NameValuePair>> StructuredData5424 = new Dictionary<string, IList<NameValuePair>>();
 
-        // same here, names can be repeated; 
         /// <summary>Data extracted from text message sections using various extraction methods, mostly pattern-matching. Keys/names can be repeated, 
         /// so the data is represented as list of key-value pairs, not dictionary. </summary>
         public IList<NameValuePair> ExtractedTuples = new List<NameValuePair>();
