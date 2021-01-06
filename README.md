@@ -47,6 +47,6 @@ RFC-3164 |  60
 Key-value pairs | 20
 Others, plain text | 4
 
-Given this absence of established standards, the challenge is make a best guess and to extract the important values like IP addresses or host names, so these values can be later used in analysis tools, or queried in log storage systems like Kusto. The result of the parsing is a structured record (SyslogEntry) that contains the information - timestamps, hostname, free-form message, IP addresses (IPv4 and IPv6).
+Given this absence of established standards, the challenge is make a best guess and to extract the important values like IP addresses or host names, so these values can be later used in analysis tools, or queried in log storage systems like Kusto. The result of the parsing is a structured record (ParsedSyslogMessage) that contains the information - timestamps, hostname, free-form message, IP addresses (IPv4 and IPv6).
 
 The syslog parser makes a best guess about the format of the message. The detected format is available in enum value *ParsedSyslogMessage.PayloadType* of the parsed message.
