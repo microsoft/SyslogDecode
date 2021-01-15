@@ -92,7 +92,7 @@ namespace Microsoft.Syslog.Tests
 
         private static void SendSyslogBatch(int procNum, int itemCount)
         {
-            var client = new SyslogClient("127.0.0.1");
+            var client = new SyslogUdpSender("127.0.0.1");
             for (int i = 0; i < itemCount; i++)
             {
                 var entry = new ParsedSyslogMessage(Facility.Authorization, Severity.Alert, DateTime.UtcNow, "Local", "TestApp", "ProcId" + procNum, "Msg" + i, 

@@ -1,3 +1,4 @@
-﻿## Microsoft.Syslog.Sample demo application
-The sample console application demonstrates use of server side Syslog processing pipeline. The app creates a syslog UDP listener on port 514 and syslog parsing pipeline. It then sends 100k messages in different formats using SyslogClient. The messages are received by the listener, parsed and reported to the host app through an event. Parsing includes detection of IP addresses (IPv4 and IPv6). The Demo app verifies the final received message count, and verifies that all IP addresses were detected. 
+﻿## Microsoft.Syslog.SampleApp Demo Application
+This sample console application sets up a Syslog processing pipeline with UDP listening endpoint. It then sends a large array of pre-fabricated messages the this enpoint using a UDP sender component also provided by the *Microsoft.Syslog* package. 
 
+The test run verifies that number of messages received matches the number of messages sent. It also verifies that IP addresses embedded in messages are detected, extracted and reported in output structured records representing the parsed syslog messages. 

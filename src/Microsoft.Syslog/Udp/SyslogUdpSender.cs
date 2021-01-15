@@ -4,7 +4,7 @@
 // *                                                       *
 // ********************************************************/
 
-namespace Microsoft.Syslog
+namespace Microsoft.Syslog.Udp
 {
     using System.Net;
     using System.Net.Sockets;
@@ -12,22 +12,22 @@ namespace Microsoft.Syslog
     using Microsoft.Syslog.Model;
 
     /// <summary>
-    /// Client that sends SyslogEntry instances or UTF8 payloads to a host at the specified remote endpoint.
+    /// Sends a stream of Syslog messages to the target remote endpoint.
     /// <see cref="BufferedSyslogParser"/>
     /// </summary>
-    public class SyslogClient
+    public class SyslogUdpSender
     {
         IPEndPoint _target; 
         UdpClient _udpClient;
         public UdpClient Client => _udpClient; 
 
-        public SyslogClient(IPEndPoint target)
+        public SyslogUdpSender(IPEndPoint target)
         {
             _target = target; 
             _udpClient = new UdpClient();
         }
 
-        public SyslogClient(string ipAddress, int port = 514)
+        public SyslogUdpSender(string ipAddress, int port = 514)
         {
             var addr = IPAddress.Parse(ipAddress);
             _target = new IPEndPoint(addr, port);
@@ -35,7 +35,7 @@ namespace Microsoft.Syslog
         }
 
         /// <summary>
-        /// Serializes SyslogEntry instance into a string for transmission and sends it over a network to an IP endpoint.
+        /// Serializes syslog record into a string for transmission and sends it over a network to an IP endpoint.
         /// </summary>
         /// <param name="entry">SyslogEntry - a SyslogEntry instance.</param>
         public void Send(ParsedSyslogMessage entry)
@@ -44,9 +44,7 @@ namespace Microsoft.Syslog
             Send(payload);
         }
 
-        /// <summary>
-        /// USe to send non-SyslogEntry messages.
-        /// </summary>
+        /// <summary>Sends plain text syslog message. </summary>
         /// <param name="payload">string - the payload to send.</param>
         public void Send(string payload)
         {

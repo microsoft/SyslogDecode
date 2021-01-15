@@ -19,6 +19,7 @@ namespace Microsoft.Syslog.TestLoadApp
     using System.Threading;
     using Microsoft.Syslog;
     using Microsoft.Syslog.Model;
+    using Microsoft.Syslog.Udp;
     using Tx.Network;
     using Tx.Network.Snmp;
 
@@ -30,11 +31,11 @@ namespace Microsoft.Syslog.TestLoadApp
             {
                 var appStt = ConfigurationManager.AppSettings; 
                 var targetIp = appStt["targetIp"];
+                var port = int.Parse(appStt["targetPort"]);
                 var pcapFile = appStt["pcapFilePath"];
                 var maxEps = int.Parse(appStt["maxEps"]);
                 var repeatCount = int.Parse(appStt["repeatCount"]);
 
-                int port = 514;
                 Console.WriteLine($" Sending pcap file '{pcapFile}', repeatCount: {repeatCount}, target IP/port: {targetIp}:{port}");
                 PCapFileProcessor.SendFile(pcapFile, repeatCount, maxEps, int.MaxValue, targetIp, port);
 
@@ -64,7 +65,7 @@ namespace Microsoft.Syslog.TestLoadApp
             Console.WriteLine($"Sending syslog messages from file {pcapFile} ...");
 
             string ipAddress = ConfigurationManager.AppSettings["targetIp"];
-            var client = new SyslogClient(ipAddress);
+            var client = new SyslogUdpSender(ipAddress);
             Console.WriteLine($"Local IP address: {ipAddress}");
 
             // open the file

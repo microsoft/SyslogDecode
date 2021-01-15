@@ -18,6 +18,7 @@ namespace Microsoft.Syslog.TestLoadApp
 
     using Microsoft.Syslog;
     using Microsoft.Syslog.Parsing;
+    using Microsoft.Syslog.Udp;
 
     public static class PCapFileProcessor
     {
@@ -55,7 +56,7 @@ namespace Microsoft.Syslog.TestLoadApp
             int recCount = 0;
             int sysLogMessageCount = 0;
 
-            var client = new SyslogClient(ipAddress, port);
+            var sender = new SyslogUdpSender(ipAddress, port);
 
             var packets = PcapNg.ReadForward(pcapFile)
                 .Where(b => b.Type == BlockType.EnhancedPacketBlock)
@@ -79,7 +80,7 @@ namespace Microsoft.Syslog.TestLoadApp
                     continue;
                 }
                 sysLogMessageCount++;
-                client.Send(syslogString);
+                sender.Send(syslogString);
                 CheckNeedSlowDown(start, sysLogMessageCount, maxEps);
 
                 if (maxRecordsToSend < recCount)

@@ -1,10 +1,91 @@
 ﻿# Microsoft.Syslog package
 
-[Syslog](https://en.wikipedia.org/wiki/Syslog) is a logging protocol widely used in various networked devices.
+[Syslog](https://en.wikipedia.org/wiki/Syslog) is a logging protocol widely used in the industry. Syslog uses a client-server architecture where a syslog **server** listens for and logs messages coming from clients over the network.
 
-The **Microsoft.Syslog** package provides components for building a Syslog processing server. The server listens to the syslog UDP port and processes the incoming messages. The server parses the messages, extracts the key values (timestamp, host server, IP addresses), and produces the output stream of strongly-typed records (of type [ParsedSyslogMessage](src/Microsoft.Syslog/Model/ParsedSyslogMessage.cs)) containing the detailed parsed information.
+Syslog is essentially a human readable text message, with some internal structure that is not always strictly followed. There is no established standard for syslog message format. The earliest attempt was [RFC-3164](https://tools.ietf.org/html/rfc3164), but it was more like overview of established practices than a real standard to follow. The other document is [RFC-5424](https://tools.ietf.org/html/rfc5424), much more rigorous specification, but not many log providers follow this specification.
 
-The parser/extractor is flexible regarding the contents and format of the input message. The set of detected key-values is not fixed, the output record contains a dictionary of key-value pairs which might be different for each message.
+There is also a key-value pairs format, used by some vendors (google 'Sophos syslog format'). And in some cases the syslog message does not follow any prescribed structure, and can be viewed as a plain text for human consumption.
+Given this absence of established standards, the challenge is make a best guess and to extract the important values like IP addresses or host names, so these values can be later used in analysis tools, or queried in log storage systems like Kusto. 
+
+The **Microsoft.Syslog** package implements components for building a syslog processing server. The server parses the messages trying to make the best educated guess about its structure; it extracts the key values - a timestamp, host server, IP addresses, etc, and produces the output stream of strongly-typed records containing the message data. 
+
+## Basic Usage 
+### Server 
+
+To setup a server listening to incoming messages on a local port, create an instance of the *SyslogUdpPipeline*: 
+```csharp
+  public void Setup() 
+  {
+    this.pipeline = new SyslogUdpPipeline();
+  }
+```
+
+The code uses all default values in optional parameters of the constructor. It sets up the UDP port listener on local port 514 (standard for syslog); creates a default syslog parser and connects it to the listener. There are several optional parameters in pipeline constructor that allow you to specify values other than defaults. 
+  
+To listen to the output stream of parsed messages, you can subscribe an observer (handler), a class implementating the *IObserver\<ParsedSyslogMessage\>* interface, to the output of the stream parser:  
+
+```csharp
+    var parsedStreamListener = new ParsedStreamListener(); // your custom class 
+	this.pipeline.StreamParser.Subscribe(parsedStreamHandler);
+```
+
+An example of a handler would be a component that uploads/saves the messages to the persistent storage. 
+
+The other way to listen to the output stream is by handling an output event:  
+ 
+```csharp
+    this.pipeline.StreamParser.ItemProcessed += StreamParser_ItemProcessed;
+    . . .      
+  
+  private static void StreamParser_ItemProcessed(object sender, ItemEventArgs<ParsedSyslogMessage> e)
+  {
+	var msg = e.Item;
+	Console.WriteLine($"Host {msg.Header.HostName}, message: {msg.Message}");
+  }
+```
+
+Once you finish setting up the pipeline, you need to call the *Start* method:
+ 
+```csharp
+    this.pipeline.Start(); 
+```
+
+You can use the syslog stream parser for processing messages that come from any source, not necessarilly from UDP port. You can instantiate the stream parser component directly, and feed it a stream of raw syslog messages: 
+ 
+```csharp
+        public void ParseMessages(string[] messages, IObserver<ParsedSyslogMessage> consumer)
+        {
+            var streamParser = new SyslogStreamParser(
+                parser: SyslogMessageParser.CreateDefault(), // default message parser, you can customize it
+                batchSize: 100, // number of messages to grab from the input queue, per thread
+                threadCount: 10 // number of threads to use in parallel parsing
+                );
+            streamParser.Subscribe(consumer); 
+            streamParser.Start();
+            foreach(var msg in messages)
+            {
+                var rawMessage = new RawSyslogMessage()
+                     {  Message = msg,  ReceivedOn = DateTime.Now};
+                streamParser.OnNext(rawMessage);
+            }
+            streamParser.Unsubscribe(consumer); 
+            streamParser.OnCompleted(); // drain all queues
+        }
+```
+
+### Client (Sender)
+The *SyslogUdpSender* is a simple component that sends the syslog messages over UDP protocol to the target endpoint. You can use this component to implement a simple logging  facility in your application. It is also useful in testing the syslog server components to implement a test stream. Here is an example:   
+
+```csharp
+public void SendMessages(string targetIp, int targetPort, string[] messages)
+{
+	var sender = new SyslogUdpSender(targetIp, targetPort); 
+	foreach(var msg in messages)
+	{
+		sender.Send(msg); 
+	}
+}
+```
 
 ## Microsoft.Syslog components
 
@@ -19,34 +100,13 @@ The components implement [IObserver\<T\>/IObservable\<T\>](https://docs.microsof
 
 The **Microsoft.Syslog** package is heavily used in syslog processing coming from the entire Azure infrastructure (200K devices), had been proof-tested running for months under heavy load (100K messages per second) in a distributed, multi-node environment.  
 
-## Projects and assemblies
+## Projects in Repository
 
 This repository contains a Visual Studio solution with several projects:
 
 * **Microsoft.Syslog** - the main implementation assembly, distributed as **Microsoft.Syslog** package.
 * **Microsoft.Syslog.SampleApp** - a sample console application showing the use of a client component and server-side processing pipeline.
 * **Microsoft.Syslog.TestLoadApp** - test load app. Allows you to send a test payload of syslog messages to the target IP/port. The messages are loaded from a file created by a network utility like [WireShark](https://en.wikipedia.org/wiki/Wireshark). You can capture the real traffic from your devices into a file, and then use this file as a test payload for the syslog server.
-* **Microsoft.Syslog.Tests** - unit test project.
+* **Microsoft.Syslog.Tests** - unit test.
 
-## Syslog message formats
 
-Syslog is essentially a human readable text message, with some internal structure that is not always strictly followed.
-
-Unfortunately, there is no established standard for syslog message format. The earliest attempt was [RFC-3164](https://tools.ietf.org/html/rfc3164), but it was more like overview of established practices than a real standard to follow. The other document is [RFC-5424](https://tools.ietf.org/html/rfc5424), much more rigorous specification, but not many device vendors follow this specification.
-
-Finally, there is a key-value pairs format, used by some vendors (google 'Sophos syslog format').
-
-In some cases the syslog message does not follow any prescribed structure, and can be viewed as plain text for human consumption.
-
-Here are the percentages of message formats based on large number of messages from diverse devices in Azure:
-
-Format | % messages
------- | -----------
-RFC-5424 |  16
-RFC-3164 |  60
-Key-value pairs | 20
-Others, plain text | 4
-
-Given this absence of established standards, the challenge is make a best guess and to extract the important values like IP addresses or host names, so these values can be later used in analysis tools, or queried in log storage systems like Kusto. The result of the parsing is a structured record (ParsedSyslogMessage) that contains the information - timestamps, hostname, free-form message, IP addresses (IPv4 and IPv6).
-
-The syslog parser makes a best guess about the format of the message. The detected format is available in enum value *ParsedSyslogMessage.PayloadType* of the parsed message.

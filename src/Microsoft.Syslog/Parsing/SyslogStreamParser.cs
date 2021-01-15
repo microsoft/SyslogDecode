@@ -15,7 +15,13 @@ namespace Microsoft.Syslog.Parsing
     {
         public readonly SyslogMessageParser Parser;
 
-        public SyslogStreamParser(SyslogMessageParser parser = null, int batchSize = 100, int? maxThreadCount = null): base(batchSize, maxThreadCount)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parser"></param>
+        /// <param name="batchSize"></param>
+        /// <param name="threadCount"></param>
+        public SyslogStreamParser(SyslogMessageParser parser = null, int batchSize = 100, int? threadCount = null): base(batchSize, threadCount)
         {
             Parser = parser ?? SyslogMessageParser.CreateDefault();
         }
@@ -40,7 +46,5 @@ namespace Microsoft.Syslog.Parsing
         public const string DataKeyActiveParseProcessCount = "Parser_ActiveProcessCount";
         public const string DataKeyInputEps = "Parser_InputEps";
         public const string DataKeyOutputEps = "Parser_OutputEps";
-
-
     }
 }

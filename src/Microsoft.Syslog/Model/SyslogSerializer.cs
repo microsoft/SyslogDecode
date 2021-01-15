@@ -9,7 +9,7 @@ using Microsoft.Syslog.Parsing;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Microsoft.Syslog
+namespace Microsoft.Syslog.Model
 {
     /// <summary>
     /// Serializes SyslogEntry instances into a string for transmission over a network.

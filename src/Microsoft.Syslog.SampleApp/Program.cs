@@ -16,7 +16,7 @@ namespace Microsoft.Syslog.SampleApp
     class Program
     {
         static int TotalCount = 100 * 1000;
-        static SyslogClient _sender;
+        static SyslogUdpSender _sender;
         static SyslogUdpPipeline _pipeline; 
         static HashSet<string> _detectedIpAddresses = new HashSet<string>();
         private static object _lock = new object();
@@ -28,7 +28,7 @@ namespace Microsoft.Syslog.SampleApp
                 Console.WriteLine("Syslog Sample App started.");
                 Console.WriteLine($"Sending {TotalCount} syslog messages to local port 514");
                 // Create sender and listener
-                _sender = new SyslogClient("127.0.0.1", 514);
+                _sender = new SyslogUdpSender("127.0.0.1", 514);
                 _pipeline = new SyslogUdpPipeline(IPAddress.Parse("127.0.0.1"));
                 _pipeline.Error += Pipeline_Error;
                 _pipeline.StreamParser.ItemProcessed += StreamParser_ItemProcessed;

@@ -18,7 +18,7 @@ namespace Microsoft.Syslog.Udp
         public readonly SyslogStreamParser StreamParser;
         public event EventHandler<ErrorEventArgs> Error;
 
-        public SyslogUdpPipeline(IPAddress ipAddress, int port = 514, SyslogMessageParser parser = null)
+        public SyslogUdpPipeline(IPAddress ipAddress = null, int port = 514, SyslogMessageParser parser = null)
             : this(new SyslogUdpListener(ipAddress, port), parser)
         {
 
