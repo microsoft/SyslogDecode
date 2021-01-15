@@ -25,7 +25,6 @@ The code uses all default values in optional parameters of the constructor. It s
 To listen to the output stream of parsed messages, you can subscribe an observer (handler), a class implementating the *IObserver\<ParsedSyslogMessage\>* interface, to the output of the stream parser:  
 
 ```csharp
-    var parsedStreamListener = new ParsedStreamListener(); // your custom class 
 	this.pipeline.StreamParser.Subscribe(parsedStreamHandler);
 ```
 
@@ -34,8 +33,8 @@ An example of a handler would be a component that uploads/saves the messages to 
 The other way to listen to the output stream is by handling an output event:  
  
 ```csharp
-    this.pipeline.StreamParser.ItemProcessed += StreamParser_ItemProcessed;
-    . . .      
+  this.pipeline.StreamParser.ItemProcessed += StreamParser_ItemProcessed;
+  // more code       
   
   private static void StreamParser_ItemProcessed(object sender, ItemEventArgs<ParsedSyslogMessage> e)
   {
@@ -44,7 +43,7 @@ The other way to listen to the output stream is by handling an output event:
   }
 ```
 
-Once you finish setting up the pipeline, you need to call the *Start* method:
+Once you finish setting up the pipeline, you must call the *Start* method:
  
 ```csharp
     this.pipeline.Start(); 
@@ -73,7 +72,7 @@ You can use the syslog stream parser for processing messages that come from any 
         }
 ```
 
-### Client (Sender)
+### SyslogUdpSender (Syslog client)
 The *SyslogUdpSender* is a simple component that sends the syslog messages over UDP protocol to the target endpoint. You can use this component to implement a simple logging  facility in your application. It is also useful in testing the syslog server components to implement a test stream. Here is an example:   
 
 ```csharp
@@ -87,26 +86,17 @@ public void SendMessages(string targetIp, int targetPort, string[] messages)
 }
 ```
 
-## Microsoft.Syslog components
+## Major components
 
-* **SyslogUdpListener** - listens to the input stream on a local UDP port, a standard protocol for syslog transmission.
 * **SyslogStreamParser** - high-performance parser consuming a stream of raw syslog messages and producing the stream of strongly-typed parsed records, ready for further analysis or uploading to the target log storage.
+* **SyslogUdpListener** - listens to the input stream on a local UDP port, a standard protocol for syslog transmission.
 * **SyslogUdpPipeline** - a combination of the UDP listener and stream parser, ready-to-use processing pipeline for a UDP-listening server.
-* **SyslogClient** - a simple Syslog client. Serializes the input (strongly-type) messages and sends them over the UDP protocol to the target listening server. Intended to for use primarily in testing of the Syslog server components.
+* **SyslogUdpSender** - a simple Syslog message sender. Sends the messages over the UDP protocol to the target listening server. Intended to for use primarily in testing of the Syslog server components. 
 
 Each component can be used independently. You can use the pipeline for parsing messages from different sources. The parser is customizable, you can add your own customizations to it.  
 
 The components implement [IObserver\<T\>/IObservable\<T\>](https://docs.microsoft.com/en-us/dotnet/api/system.iobserver-1) interfaces, so they can be easily connected as stream processors. All components are thread-safe and free-threaded.
 
 The **Microsoft.Syslog** package is heavily used in syslog processing coming from the entire Azure infrastructure (200K devices), had been proof-tested running for months under heavy load (100K messages per second) in a distributed, multi-node environment.  
-
-## Projects in Repository
-
-This repository contains a Visual Studio solution with several projects:
-
-* **Microsoft.Syslog** - the main implementation assembly, distributed as **Microsoft.Syslog** package.
-* **Microsoft.Syslog.SampleApp** - a sample console application showing the use of a client component and server-side processing pipeline.
-* **Microsoft.Syslog.TestLoadApp** - test load app. Allows you to send a test payload of syslog messages to the target IP/port. The messages are loaded from a file created by a network utility like [WireShark](https://en.wikipedia.org/wiki/Wireshark). You can capture the real traffic from your devices into a file, and then use this file as a test payload for the syslog server.
-* **Microsoft.Syslog.Tests** - unit test.
 
 
