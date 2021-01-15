@@ -251,3 +251,4 @@ paket-files/
 .idea/
 *.sln.iml
 *.cache
+src/Microsoft.Syslog.Tests/__ReadMeSamples.cs

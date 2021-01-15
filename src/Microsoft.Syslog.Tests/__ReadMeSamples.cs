@@ -9,16 +9,17 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Syslog.Tests
 {
-    class __ReadMeSamples
+    class __ReadMeSamples 
     {
         public void SendMessages(string targetIp, int targetPort, string[] messages)
         {
-            var sender = new SyslogUdpSender(targetIp, targetPort); 
-            foreach(var msg in messages)
+            using (var sender = new SyslogUdpSender(targetIp, targetPort))
             {
-                sender.Send(msg); 
+                foreach (var msg in messages)
+                {
+                    sender.Send(msg);
+                }
             }
-            sender.UdpClient.Dispose(); 
         }
 
         public void ParseMessages(string[] messages, IObserver<ParsedSyslogMessage> consumer)

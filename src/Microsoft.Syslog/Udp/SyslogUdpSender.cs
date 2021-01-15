@@ -6,6 +6,7 @@
 
 namespace Microsoft.Syslog.Udp
 {
+    using System;
     using System.Net;
     using System.Net.Sockets;
     using System.Text;
@@ -15,7 +16,7 @@ namespace Microsoft.Syslog.Udp
     /// Sends a stream of Syslog messages to the target remote endpoint.
     /// <see cref="BufferedSyslogParser"/>
     /// </summary>
-    public class SyslogUdpSender
+    public class SyslogUdpSender: IDisposable
     {
         IPEndPoint _target; 
         UdpClient _udpClient;
