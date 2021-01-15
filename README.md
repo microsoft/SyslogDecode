@@ -65,7 +65,7 @@ public void ParseMessages(string[] messages, IObserver<ParsedSyslogMessage> cons
     foreach(var msg in messages)
     {
         var rawMessage = new RawSyslogMessage() 
-...............{Message = msg,  ReceivedOn = DateTime.Now};
+               {Message = msg,  ReceivedOn = DateTime.Now};
         streamParser.OnNext(rawMessage);
     }
     streamParser.Unsubscribe(consumer); 
