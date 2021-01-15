@@ -56,8 +56,8 @@ You can use the syslog stream parser for processing messages that come from any 
         public void ParseMessages(string[] messages, IObserver<ParsedSyslogMessage> consumer)
         {
             var streamParser = new SyslogStreamParser(
-                parser: SyslogMessageParser.CreateDefault(), // default message parser, you can customize it
-                batchSize: 100, // number of messages to grab from the input queue, per thread
+                parser: SyslogMessageParser.CreateDefault(), 
+				      // - default message parser, you can customize it
                 threadCount: 10 // number of threads to use in parallel parsing
                 );
             streamParser.Subscribe(consumer); 
