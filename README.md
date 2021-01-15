@@ -26,7 +26,7 @@ The code uses all default values in optional parameters of the constructor. It s
 To listen to the output stream of parsed messages, you can subscribe an observer (handler), a class implementating the *IObserver\<ParsedSyslogMessage\>* interface, to the output of the stream parser:  
 
 ```csharp
-	this.pipeline.StreamParser.Subscribe(parsedStreamHandler);
+    this.pipeline.StreamParser.Subscribe(parsedStreamHandler);
 ```
 
 An example of a handler would be a component that uploads/saves the messages to the persistent storage. 
@@ -39,8 +39,8 @@ The other way to listen to the output stream is by handling an output event:
   
   private static void StreamParser_ItemProcessed(object sender, ItemEventArgs<ParsedSyslogMessage> e)
   {
-	var msg = e.Item;
-	Console.WriteLine($"Host {msg.Header.HostName}, message: {msg.Message}");
+    var msg = e.Item;
+    Console.WriteLine($"Host {msg.Header.HostName}, message: {msg.Message}");
   }
 ```
 
@@ -55,21 +55,21 @@ You can use the syslog stream parser for processing messages that come from any 
 ```csharp
 public void ParseMessages(string[] messages, IObserver<ParsedSyslogMessage> consumer)
 {
-	var streamParser = new SyslogStreamParser(
-		parser: SyslogMessageParser.CreateDefault(), // - default message parser, 
-													 //   you can customize it
-		threadCount: 10 // number of threads to use in parallel parsing
-		);
-	streamParser.Subscribe(consumer); 
-	streamParser.Start();
-	foreach(var msg in messages)
-	{
-		var rawMessage = new RawSyslogMessage()
-			 {  Message = msg,  ReceivedOn = DateTime.Now};
-		streamParser.OnNext(rawMessage);
-	}
-	streamParser.Unsubscribe(consumer); 
-	streamParser.OnCompleted(); // drain all queues
+    var streamParser = new SyslogStreamParser(
+         parser: SyslogMessageParser.CreateDefault(), // - default message parser, 
+                                                      //   you can customize it
+        threadCount: 10 // number of threads to use in parallel parsing
+        );
+    streamParser.Subscribe(consumer); 
+    streamParser.Start();
+    foreach(var msg in messages)
+    {
+        var rawMessage = new RawSyslogMessage() 
+...............{Message = msg,  ReceivedOn = DateTime.Now};
+        streamParser.OnNext(rawMessage);
+    }
+    streamParser.Unsubscribe(consumer); 
+    streamParser.OnCompleted(); // drain all queues
 }
 ```
 
@@ -81,13 +81,13 @@ The following code creates a sender and sends a number of messages to the target
 ```csharp
 public void SendMessages(string targetIp, int targetPort, string[] messages)
 {
-	using (var sender = new SyslogUdpSender(targetIp, targetPort))
-	{
-		foreach (var msg in messages)
-		{
-			sender.Send(msg);
-		}
-	}
+    using (var sender = new SyslogUdpSender(targetIp, targetPort))
+    {
+        foreach (var msg in messages)
+        {
+            sender.Send(msg);
+        }
+    }
 }
 ```
 
