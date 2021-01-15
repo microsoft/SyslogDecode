@@ -19,7 +19,7 @@ namespace Microsoft.Syslog.Udp
     {
         IPEndPoint _target; 
         UdpClient _udpClient;
-        public UdpClient Client => _udpClient; 
+        public UdpClient UdpClient => _udpClient; 
 
         public SyslogUdpSender(IPEndPoint target)
         {
@@ -32,6 +32,11 @@ namespace Microsoft.Syslog.Udp
             var addr = IPAddress.Parse(ipAddress);
             _target = new IPEndPoint(addr, port);
             _udpClient = new UdpClient();
+        }
+
+        public void Dispose()
+        {
+            _udpClient.Dispose();
         }
 
         /// <summary>

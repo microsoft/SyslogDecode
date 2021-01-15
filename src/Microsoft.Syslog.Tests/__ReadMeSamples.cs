@@ -18,6 +18,7 @@ namespace Microsoft.Syslog.Tests
             {
                 sender.Send(msg); 
             }
+            sender.UdpClient.Dispose(); 
         }
 
         public void ParseMessages(string[] messages, IObserver<ParsedSyslogMessage> consumer)

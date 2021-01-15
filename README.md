@@ -74,15 +74,19 @@ You can use the syslog stream parser for processing messages that come from any 
 ```
 
 ### SyslogUdpSender (Syslog client)
-The *SyslogUdpSender* is a simple component that sends the syslog messages over UDP protocol to the target endpoint. You can use this component to implement a simple logging  facility in your application. It is also useful in testing the syslog server components to implement a test stream. Here is an example:   
+The *SyslogUdpSender* is a simple component that sends the syslog messages over UDP protocol to the target endpoint. You can use this component to implement a simple logging  facility in your application. It is also useful in testing the syslog server components to implement a test stream. 
+
+The following code creates a sender and sends a number of messages to the target IP/port:   
 
 ```csharp
 public void SendMessages(string targetIp, int targetPort, string[] messages)
 {
-	var sender = new SyslogUdpSender(targetIp, targetPort); 
-	foreach(var msg in messages)
+	using (var sender = new SyslogUdpSender(targetIp, targetPort))
 	{
-		sender.Send(msg); 
+		foreach (var msg in messages)
+		{
+			sender.Send(msg);
+		}
 	}
 }
 ```
