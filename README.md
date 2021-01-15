@@ -2,12 +2,13 @@
 
 [Syslog](https://en.wikipedia.org/wiki/Syslog) is a logging protocol widely used in the industry. Syslog uses a client-server architecture where a syslog **server** listens for and logs messages coming from clients over the network.
 
+The **Microsoft.Syslog** package implements the components for building a syslog processing server. The server parses the inpyut messages making the best effort to detect its structure; it extracts the key values - a timestamp, host server, IP addresses, etc, and produces the output stream of strongly-typed records containing the message data. 
+
+## Syslog Formats
 Syslog is essentially a human readable text message, with some internal structure that is not always strictly followed. There is no established standard for syslog message format. The earliest attempt was [RFC-3164](https://tools.ietf.org/html/rfc3164), but it was more like overview of established practices than a real standard to follow. The other document is [RFC-5424](https://tools.ietf.org/html/rfc5424), much more rigorous specification, but not many log providers follow this specification.
 
 There is also a key-value pairs format, used by some vendors (google 'Sophos syslog format'). And in some cases the syslog message does not follow any prescribed structure, and can be viewed as a plain text for human consumption.
 Given this absence of established standards, the challenge is make a best guess and to extract the important values like IP addresses or host names, so these values can be later used in analysis tools, or queried in log storage systems like Kusto. 
-
-The **Microsoft.Syslog** package implements components for building a syslog processing server. The server parses the messages trying to make the best educated guess about its structure; it extracts the key values - a timestamp, host server, IP addresses, etc, and produces the output stream of strongly-typed records containing the message data. 
 
 ## Basic Usage 
 ### Server 
