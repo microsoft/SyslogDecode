@@ -102,6 +102,6 @@ The **Microsoft.Syslog** package is heavily used in syslog processing coming fro
 Syslog is essentially a human readable text message, with some internal structure that is not always strictly followed. There is no established standard for syslog message format. The earliest attempt was [RFC-3164](https://tools.ietf.org/html/rfc3164), but it was more like overview of established practices than a real standard to follow. The other document is [RFC-5424](https://tools.ietf.org/html/rfc5424), much more rigorous specification, but not many log providers follow this specification.
 
 There is also a key-value pairs format, used by some vendors (google 'Sophos syslog format'). And in some cases the syslog message does not follow any prescribed structure, and can be viewed as a plain text for human consumption.
-Given this absence of established standards, the challenge is make a best guess and to extract the important values like IP addresses or host names, so these values can be later used in analysis tools, or queried in log storage systems like Kusto. The parser in *Micorosoft.Syslog* detects the input message format, parses the message and extract they keys values from it. 
+Given this absence of established standards, the challenge is make a best guess and to extract the important values like IP addresses or host names, so these values can be later used in analysis tools, or queried in log storage systems like Kusto. The parser in *Micorosoft.Syslog* detects the input message format, parses the message and extracts the information from it. 
  
 
