@@ -53,24 +53,24 @@ Once you finish setting up the pipeline, you must call the *Start* method:
 You can use the syslog stream parser for processing messages that come from any source, not necessarilly from UDP port. You can instantiate the stream parser component directly, and feed it a stream of raw syslog messages: 
  
 ```csharp
-        public void ParseMessages(string[] messages, IObserver<ParsedSyslogMessage> consumer)
-        {
-            var streamParser = new SyslogStreamParser(
-                parser: SyslogMessageParser.CreateDefault(), // - default message parser, 
-	                                                         //   you can customize it
-                threadCount: 10 // number of threads to use in parallel parsing
-                );
-            streamParser.Subscribe(consumer); 
-            streamParser.Start();
-            foreach(var msg in messages)
-            {
-                var rawMessage = new RawSyslogMessage()
-                     {  Message = msg,  ReceivedOn = DateTime.Now};
-                streamParser.OnNext(rawMessage);
-            }
-            streamParser.Unsubscribe(consumer); 
-            streamParser.OnCompleted(); // drain all queues
-        }
+public void ParseMessages(string[] messages, IObserver<ParsedSyslogMessage> consumer)
+{
+	var streamParser = new SyslogStreamParser(
+		parser: SyslogMessageParser.CreateDefault(), // - default message parser, 
+													 //   you can customize it
+		threadCount: 10 // number of threads to use in parallel parsing
+		);
+	streamParser.Subscribe(consumer); 
+	streamParser.Start();
+	foreach(var msg in messages)
+	{
+		var rawMessage = new RawSyslogMessage()
+			 {  Message = msg,  ReceivedOn = DateTime.Now};
+		streamParser.OnNext(rawMessage);
+	}
+	streamParser.Unsubscribe(consumer); 
+	streamParser.OnCompleted(); // drain all queues
+}
 ```
 
 ### SyslogUdpSender (Syslog client)
