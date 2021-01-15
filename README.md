@@ -34,8 +34,8 @@ An example of a handler would be a component that uploads/saves the messages to 
 The other way to listen to the output stream is by handling an output event:  
  
 ```csharp
+  // setup 
   this.pipeline.StreamParser.ItemProcessed += StreamParser_ItemProcessed;
-  // more code       
   
   private static void StreamParser_ItemProcessed(object sender, ItemEventArgs<ParsedSyslogMessage> e)
   {
