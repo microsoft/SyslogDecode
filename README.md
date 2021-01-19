@@ -4,6 +4,12 @@
 
 The **Microsoft.Syslog** package implements the components for building a syslog processing server. The server parses the input messages; it extracts the key values - a timestamp, host server, IP addresses, etc, and produces the output stream of strongly-typed records containing the message data. 
 
+## Installation
+Install the latest stable binaries via [NuGet](https://www.nuget.org/packages/Microsoft.Syslog/).
+```
+> dotnet add package Microsoft.Syslog
+```
+
 ## Basic Usage 
 ### Server 
 
@@ -87,7 +93,8 @@ public void SendMessages(string targetIp, int targetPort, string[] messages)
 
 ## Major components
 
-* **SyslogStreamParser** - high-performance parser consuming a stream of raw syslog messages and producing the stream of strongly-typed parsed records, ready for further analysis or uploading to the target log storage.
+* **SyslogMessageParser** - a customizable core parser of syslog messages. 
+* **SyslogStreamParser** - high-performance parsing engine consuming a stream of raw syslog messages and producing the stream of strongly-typed parsed records, ready for further analysis or uploading to the target log storage. Uses *SyslogMessageParser* for parsing individual messages.
 * **SyslogUdpListener** - listens to the input stream on a local UDP port, a standard protocol for syslog transmission.
 * **SyslogUdpPipeline** - a combination of the UDP listener and stream parser, ready-to-use processing pipeline for a UDP-listening server.
 * **SyslogUdpSender** - a simple Syslog message sender. Sends the messages over the UDP protocol to the target listening server. Intended to for use primarily in testing of the Syslog server components. 

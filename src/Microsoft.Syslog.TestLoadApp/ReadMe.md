@@ -12,6 +12,8 @@ Edit the *app.config* file and set the configuration values:
 * *targetIp, targetPort* - the target IP address and UDP port to send the messages 
 * *maxEps* - the maximum send rate, messages per second. 
 
+Launch the executable. The application will start sending the messages from the file to the target at the specified EPS rate while reporting progress to the output console window.  
+
 
 
   
