@@ -12,22 +12,24 @@ namespace Microsoft.Syslog.Udp
     using System.Text;
     using Microsoft.Syslog.Model;
 
-    /// <summary>
-    /// Sends a stream of Syslog messages to the target remote endpoint.
-    /// <see cref="BufferedSyslogParser"/>
-    /// </summary>
+    /// <summary>Sends a stream of Syslog messages to the target remote UDP endpoint. </summary>
     public class SyslogUdpSender: IDisposable
     {
-        IPEndPoint _target; 
-        UdpClient _udpClient;
-        public UdpClient UdpClient => _udpClient; 
+        public UdpClient UdpClient => _udpClient;
+        private readonly IPEndPoint _target; 
+        private readonly UdpClient _udpClient;
 
+        /// <summary>Creates a new instance of the class. </summary>
+        /// <param name="target">The target endpoint. </param>
         public SyslogUdpSender(IPEndPoint target)
         {
             _target = target; 
             _udpClient = new UdpClient();
         }
 
+        /// <summary>Creates a new instance of the class. </summary>
+        /// <param name="ipAddress">The target IP address.</param>
+        /// <param name="port">The target port; defaults to 514.</param>
         public SyslogUdpSender(string ipAddress, int port = 514)
         {
             var addr = IPAddress.Parse(ipAddress);
@@ -50,8 +52,8 @@ namespace Microsoft.Syslog.Udp
             Send(payload);
         }
 
-        /// <summary>Sends plain text syslog message. </summary>
-        /// <param name="payload">string - the payload to send.</param>
+        /// <summary>Sends a plain text syslog message. </summary>
+        /// <param name="payload">The payload to send.</param>
         public void Send(string payload)
         {
             var dgram = Encoding.UTF8.GetBytes(payload);

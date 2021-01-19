@@ -16,10 +16,12 @@ namespace Microsoft.Syslog.Udp
     using Microsoft.Syslog.Model;
 
     /// <summary>
-    /// Listens on the specified IP address and post and broadcasts received UPD packets to any subscribed observers.
+    /// Listens on the specified IP address and port, and broadcasts received UPD packets to any subscribed observers.
     /// </summary>
     public class SyslogUdpListener: Observable<RawSyslogMessage>, IDisposable
     {
+        /// <summary>Default UDP buffer size, 1 Gb. </summary>
+        public const int DefaultUdpBufferSize = 1 * 1024 * 1024 * 1024; // 1 GB
         public UdpClient PortListener { get; private set; }
         public event EventHandler<ErrorEventArgs> Error;
         public readonly EpsCounter InputEpsCounter = new EpsCounter("UdpEps");
@@ -31,7 +33,12 @@ namespace Microsoft.Syslog.Udp
         private long _packetCount;
         private bool _disposeClientOnDispose;
 
-        public SyslogUdpListener(IPAddress address = null, int port = 514, int bufferSize = 10 * 1024 * 1024)
+        /// <summary>Creates a new instance of the SyslogUdpListener. </summary>
+        /// <param name="address">The IP address, optional. Defaults to local address. Use it if you need to connect the listener to the port on a specific 
+        /// network card with non-default local address.</param>
+        /// <param name="port">UDP port, defaults to 514.</param>
+        /// <param name="bufferSize">UDP buffer size. Defaults to 1 Gb, recommended for high-rate dedicated syslog servers.</param>
+        public SyslogUdpListener(IPAddress address = null, int port = 514, int bufferSize = DefaultUdpBufferSize )
         {
             address = address ?? IPAddress.Parse("127.0.0.1");
             var endPoint = new IPEndPoint(address, port);
@@ -46,6 +53,7 @@ namespace Microsoft.Syslog.Udp
             _disposeClientOnDispose = false;
         }
 
+        /// <summary>Starts the listener. </summary>
         public void Start()
         {
             if (_running)
@@ -61,6 +69,7 @@ namespace Microsoft.Syslog.Udp
             _thread.Start();
         }
 
+        /// <summary>Stops the listener. Waits for draining the input UDP buffer befor closing the listener. </summary>
         public void Stop()
         {
             if (!_running)
@@ -126,6 +135,7 @@ namespace Microsoft.Syslog.Udp
 
         /// <summary>Retrieves the heartbeat data.</summary>
         /// <param name="data">Data container.</param>
+        /// <param name="prefix">Optional key prefix.</param>
         public void OnHeartbeat(IDictionary<string, object> data, string prefix = null)
         {
             data[prefix + DataKeyPacketCount] = PacketCount;

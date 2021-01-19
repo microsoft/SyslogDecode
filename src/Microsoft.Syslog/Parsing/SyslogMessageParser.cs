@@ -11,11 +11,9 @@ namespace Microsoft.Syslog.Parsing
     using System.Linq;
     using Microsoft.Syslog.Model;
 
-    /// <summary>
-    ///    Configurable syslog message parser for multiple variants (RFCs) and extractors. 
-    /// </summary>
+    /// <summary>Configurable syslog message parser for multiple message formats (RFCs). </summary>
     /// <remarks>
-    ///    Holds configurable lists of version parsers (for handling specific version/format) and 
+    ///    Holds a configurable list of parsers for handling specific version/formats, and a 
     ///    list of value extractors for pattern-based extraction.   
     /// </remarks>
     public class SyslogMessageParser
@@ -26,7 +24,11 @@ namespace Microsoft.Syslog.Parsing
         /// <summary> Creates and configures a default parser, with support for all major syslog versions 
         ///     and IP addresses extractor. 
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Syslog parser instance.</returns>
+        /// <remarks>The default parser contains a number of parsers for specific syslog formats: RFC-5424, RFC-3164, 
+        /// key-value pairs parser, and plain text parser. It also adds IP addresses extractor that extracts IPv4 and IPv6
+        /// addresses from the messages and places them into ExtractedData dictionary field of the output parsed message.
+        /// </remarks>
         public static SyslogMessageParser CreateDefault()
         {
             var parser = new SyslogMessageParser();
@@ -36,16 +38,23 @@ namespace Microsoft.Syslog.Parsing
             return parser;
         }
 
+        /// <summary>Adds a list of format-specific parsers. </summary>
+        /// <param name="parsers">A list of parsers.</param>
         public void AddVariantParsers(params ISyslogVariantParser[] parsers)
         {
             VariantParsers.AddRange(parsers);
         }
 
+        /// <summary>Adds a list of pattern-based value extractors. </summary>
+        /// <param name="extractors">A list of extractors.</param>
         public void AddValueExtractors(params IValuesExtractor[] extractors)
         {
             ValueExtractors.AddRange(extractors); 
         }
 
+        /// <summary>Parses a raw syslog message and returns a parsed message object. </summary>
+        /// <param name="rawMessage">Raw syslog message.</param>
+        /// <returns></returns>
         public ParsedSyslogMessage Parse(RawSyslogMessage rawMessage)
         {
             var ctx = new ParserContext(rawMessage);
@@ -54,7 +63,7 @@ namespace Microsoft.Syslog.Parsing
         }
 
 
-        public void Parse(ParserContext context)
+        internal void Parse(ParserContext context)
         {
             if (!context.ReadSyslogPrefix())
                 return;
@@ -147,7 +156,6 @@ namespace Microsoft.Syslog.Parsing
                     message.Data[kv.Key] = kv.Value[0]; //single value
             }
         }
-
 
     }
 }
