@@ -4,12 +4,6 @@
 
 The **Microsoft.Syslog** package implements the components for building a syslog processing server. The server parses the input messages; it extracts the key values - a timestamp, host server, IP addresses, etc, and produces the output stream of strongly-typed records containing the message data. 
 
-## Installation
-Install the latest stable binaries via [NuGet](https://www.nuget.org/packages/Microsoft.Syslog/).
-```
-> dotnet add package Microsoft.Syslog
-```
-
 ## Basic Usage 
 ### Server 
 

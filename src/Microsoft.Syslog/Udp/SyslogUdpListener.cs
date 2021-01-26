@@ -21,7 +21,7 @@ namespace Microsoft.Syslog.Udp
     public class SyslogUdpListener: Observable<RawSyslogMessage>, IDisposable
     {
         /// <summary>Default UDP buffer size, 1 Gb. </summary>
-        public const int DefaultUdpBufferSize = 1 * 1024 * 1024 * 1024; // 1 GB
+        public const int DefaultUdpBufferSize = 1 * 1024 ^ 3; // 1 GB
         public UdpClient PortListener { get; private set; }
         public event EventHandler<ErrorEventArgs> Error;
         public readonly EpsCounter InputEpsCounter = new EpsCounter("UdpEps");
