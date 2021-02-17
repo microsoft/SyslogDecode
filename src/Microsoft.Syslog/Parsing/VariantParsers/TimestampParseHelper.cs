@@ -18,6 +18,19 @@ namespace Microsoft.Syslog.Parsing
 
         public static bool TryParseTimestamp(ParserContext ctx)
         {
+            try
+            {
+                return TryParseTimestampImpl(ctx);
+            }
+            catch (Exception)
+            {
+                // ctx.ErrorMessages.Add(ex.ToString());
+                return false;
+            }
+        }
+
+        private static bool TryParseTimestampImpl(ParserContext ctx)
+        {
             // sometimes there's starting space
             if (ctx.Current == SyslogChars.Space)
                 ctx.SkipSpaces();
@@ -31,37 +44,46 @@ namespace Microsoft.Syslog.Parsing
                 var fiveDigits = ctx.Text.Length > ctx.Position + 5 && ctx.Text.Substring(ctx.Position, 5).All(ch => char.IsDigit(ch));
                 if (fiveDigits)
                 {
-                    var savePos = ctx.Position; 
+                    var savePos = ctx.Position;
                     var digits = ctx.ReadDigits(20);
                     if (ctx.Match(": "))
                     {
                         // we swallowed this numeric prefix and ': ' after that, nothing to do
-                    } else
+                    }
+                    else
                     {
                         ctx.Position = savePos; // rollback, timestamp evaluation will go from string start
                     }
                 }
             }
-            try
-            {
-                // quick guess - if it contains current month name
-                if (TryParseIfStartsWithYear(ctx) || TryParseTimestampWithMonthName(ctx) ||
-                    TryParseIfStartsWithColonThenYear(ctx) || TryParseIfStartsWithSpace(ctx))
-                {
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                ctx.ErrorMessages.Add(ex.ToString());
-            }
-            return false; 
-                   
+            var result = TryParseIfStartsWithYear(ctx) || TryParseTimestampWithMonthName(ctx) ||
+                TryParseIfStartsWithColonThenYear(ctx) || TryParseIfStartsWithSpace(ctx);
+            return result;
+
         }
+
+        public static DateTime? ParseStandardTimestamp(this ParserContext ctx)
+        {
+            var ts = ctx.ReadWord();
+            if (ts == null)
+            {
+                return null;
+            }
+
+            if (DateTime.TryParse(ts, out var dt))
+            {
+                // by default TryParse produces local time
+                return dt.ToUniversalTime();
+            }
+            ctx.AddError($"Invalid timestamp '{ts}'.");
+            return DateTime.MinValue;
+        }
+
+
 
         // match entry like  
         //  <141>2020-03-04T17:20:54.412705+00:00 MWH....
-        public static bool TryParseIfStartsWithYear(ParserContext ctx)
+        private static bool TryParseIfStartsWithYear(ParserContext ctx)
         {
             var year = DateTime.UtcNow.Year;
             var savePos = ctx.Position;
@@ -84,32 +106,32 @@ namespace Microsoft.Syslog.Parsing
             return false;
         }
 
-        public static bool TryParseTimestampWithMonthName(ParserContext ctx)
+        private static bool TryParseTimestampWithMonthName(ParserContext ctx)
         {
-            if (ctx.Text.Length < ctx.Position + 20)
-                return false; 
-            var tsStr = ctx.Text.Substring(ctx.Position, 35);
+            if (ctx.Text.Length < ctx.Position + 21)
+                return false;
+            var tsStr = ctx.Text.Substring(ctx.Position, 20);
             if (tsStr.StartsWith(": "))
                 tsStr = tsStr.Substring(2);
             if (tsStr.Contains("/"))
-                return false; 
+                return false;
             var words = tsStr.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             if (words.Length < 4)
-                return false; 
+                return false;
             string year = null;
             string month = null;
             string day = null;
             string time = null;
             string tz = null;
-            var y = DateTime.UtcNow.Year; 
+            var y = DateTime.UtcNow.Year;
             var thisYear = y.ToString();
             var prevYear = (y - 1).ToString();
-            string lastWord = null; 
+            string lastWord = null;
             // Take first 5 words and try to understand what it is
-            for(int i = 0; i < 5; i++)
+            for (int i = 0; i < 5; i++)
             {
                 if (i >= words.Length)
-                    break; 
+                    break;
                 var word = words[i];
                 if (word == thisYear || word == prevYear)
                     year = word;
@@ -122,7 +144,7 @@ namespace Microsoft.Syslog.Parsing
                 else if (word.Contains(":") && word.Split(':').Length == 3)
                 {
                     time = word;
-                    lastWord = word; 
+                    lastWord = word;
                 }
                 else if (word.Length == 4 && word.EndsWith(":"))
                 {
@@ -130,20 +152,20 @@ namespace Microsoft.Syslog.Parsing
                     if (_timezones.Contains(w3))
                     {
                         tz = w3;
-                        lastWord = word; 
+                        lastWord = word;
                         break; //for loop
                     }
-                }                     
+                }
             }
             // check if we have enough - at least month, day and time
             if (month == null || day == null || time == null)
-                return false; 
+                return false;
             if (year == null)
                 year = GuessYear(month).ToString();
             ctx.ParsedMessage.Header.Timestamp = ConstructDateTime(year, month, day, time, tz);
             // advance position
-             ctx.Position = ctx.Text.IndexOf(lastWord, ctx.Position) + lastWord.Length; 
-            return true; 
+            ctx.Position = ctx.Text.IndexOf(lastWord, ctx.Position) + lastWord.Length;
+            return true;
         }
 
         private static DateTime ConstructDateTime(string year, string month, string day, string time, string tz)
@@ -151,14 +173,14 @@ namespace Microsoft.Syslog.Parsing
             var y = int.Parse(year);
             var m = Array.IndexOf(_months, month.ToUpperInvariant()) + 1;
             var d = int.Parse(day);
-            var t = TimeSpan.Parse(time);
+            TimeSpan.TryParse(time, out var t);
             var dt = new DateTime(y, m, d, t.Hours, t.Minutes, t.Seconds, DateTimeKind.Utc);
             if (tz != null)
             {
-                var offs = GetTimezoneOffset(tz); 
+                var offs = GetTimezoneOffset(tz);
                 dt = dt.Subtract(offs);
             }
-            return dt; 
+            return dt;
         }
 
         private static TimeSpan GetTimezoneOffset(string value)
@@ -195,7 +217,7 @@ namespace Microsoft.Syslog.Parsing
 
         // match entry like  
         //  <186>: 2020 Mar  4 17:20:54.183 UTC:
-        public static bool TryParseIfStartsWithColonThenYear(ParserContext ctx)
+        private static bool TryParseIfStartsWithColonThenYear(ParserContext ctx)
         {
             var year = DateTime.UtcNow.Year;
             var savePos = ctx.Position;
@@ -208,7 +230,7 @@ namespace Microsoft.Syslog.Parsing
                 if (utcPos > 0)
                 {
                     var dtStr = ctx.Text.Substring(ctx.Position, utcPos - ctx.Position);
-                    ctx.Position = utcPos + UTC.Length; 
+                    ctx.Position = utcPos + UTC.Length;
                     if (DateTime.TryParse(dtStr, out var dt))
                     {
                         ctx.ParsedMessage.Header.Timestamp = DateTime.SpecifyKind(dt, DateTimeKind.Utc);
@@ -216,29 +238,29 @@ namespace Microsoft.Syslog.Parsing
                     }
                 }
             }
-            ctx.Position = savePos; 
-            return false; 
+            ctx.Position = savePos;
+            return false;
         }
 
         // match entry like  
         //  <134> 03/04/2020:17:20:58 GMT ams07....
-        public static bool TryParseIfStartsWithSpace(ParserContext ctx)
+        private static bool TryParseIfStartsWithSpace(ParserContext ctx)
         {
             ctx.Reset();
             if (ctx.Current != SyslogChars.Space)
-                return false; 
+                return false;
             var prefix = ctx.Text.Substring(ctx.Position, 25);
             var year = DateTime.UtcNow.Year;
             if (prefix.Contains($"/{year}:") || prefix.Contains($"/{year - 1}:")) //(also check prior year)
             {
                 ctx.Position++;
-                var spPos = ctx.Text.IndexOf(" ", ctx.Position); 
+                var spPos = ctx.Text.IndexOf(" ", ctx.Position);
                 if (spPos > 0)
                 {
                     var dtStr = ctx.Text.Substring(ctx.Position, spPos - ctx.Position);
                     ctx.Position = spPos + 1;
                     ctx.Match("GMT"); //skip also GMT
-                    if (DateTime.TryParse(dtStr, out var dt) || 
+                    if (DateTime.TryParse(dtStr, out var dt) ||
                         DateTime.TryParseExact(dtStr, "MM/dd/yyyy:HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out dt))
                     {
                         ctx.ParsedMessage.Header.Timestamp = dt.ToUniversalTime();
@@ -248,24 +270,6 @@ namespace Microsoft.Syslog.Parsing
             }
             return false;
         }
-
-        public static DateTime? ParseStandardTimestamp(this ParserContext ctx)
-        {
-            var ts = ctx.ReadWord();
-            if (ts == null)
-            {
-                return null;
-            }
-
-            if (DateTime.TryParse(ts, out var dt))
-            {
-                // by default TryParse produces local time
-                return dt.ToUniversalTime();
-            }
-            ctx.AddError($"Invalid timestamp '{ts}'.");
-            return DateTime.MinValue;
-        }
-
 
     }
 }
