@@ -30,7 +30,7 @@ To listen to the output stream of parsed messages, you can subscribe an observer
     pipeline.StreamParser.Subscribe(parsedStreamHandler);
 ```
 
-An example of a handler would be a component that uploads/saves the messages to the persistent storage. 
+An example of a handler would be a component that uploads the parsed messages to the persistent storage. 
 
 The other way to listen to the output stream is by handling an output event:  
  
