@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <StartupObject>SyslogDecode.SampleApp.Program</StartupObject>
+    <Company>Microsoft</Company>
+    <Product>Syslog sample app.</Product>
+    <Description>Syslog sample application.</Description>
+    <Copyright>Microsoft</Copyright>
+    <Version>1.1.0</Version>
+    <Authors>Microsoft MSRC</Authors>
+    <AssemblyName>SyslogDecode.SampleApp</AssemblyName>
+    <RootNamespace>SyslogDecode.SampleApp</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SyslogDecode\SyslogDecode.csproj" />
+  </ItemGroup>
+
+</Project>

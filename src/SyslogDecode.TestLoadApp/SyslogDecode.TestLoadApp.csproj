@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <StartupObject>SyslogDecode.TestLoadApp.Program</StartupObject>
+    <Company>Microsoft</Company>
+    <Product>Syslog sample app.</Product>
+    <Description>Syslog .</Description>
+    <Copyright>Microsoft</Copyright>
+    <Version>1.1.0</Version>
+    <Authors>Microsoft MSRC</Authors>
+    <AssemblyName>SyslogDecode.TestLoadApp</AssemblyName>
+    <RootNamespace>SyslogDecode.TestLoadApp</RootNamespace>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Tx.Network" Version="3.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SyslogDecode\SyslogDecode.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Configuration" />
+  </ItemGroup>
+
+</Project>
