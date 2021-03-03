@@ -4,6 +4,34 @@
 
 The **SyslogDecode** package implements the components for building a syslog processing server. The server parses the input messages; it extracts the key values - a timestamp, host server, IP addresses, etc, and produces the output stream of strongly-typed records containing the message data. 
 
+## Parsing/Decoding example
+Here is an example of what kind of decoding the **SyslogDecode** does. A syslog message is a plain, somewhat structured text: 
+```
+<14>Mar  3 20:27:49 SDX3-5231-0200-2X0 snmp#supervisord: snmp-subagent WARNING:sonic_ax_impl:Invalid mgmt IP 22.111.33.44,2234:23d5:e0:25a3::55
+``` 
+
+This string will parsed into a structure represented by the following json: 
+
+```json
+{
+  "DeviceTimestamp": "2021-03-03 20:27:49.00",
+  "Facility": "UserLevel",
+  "Severity": "Informational",
+  "HostName": "SDX3-5231-0200-2X0",
+  "AppName": "",
+  "MsgId": "",
+  "ExtractedData": {
+    "IPv4": [
+      "22.111.33.44"
+    ],
+    "IPv6": [
+      "2234:23d5:e0:25a3::55"
+    ]
+  }  
+}
+```
+As you see, the *Decoder* identified 'typical' syslog fields (datetime, hostname), decoded facility and severity, and also extracted IPv4 and IPv6 addresses from the plain Warning text at the end of the message.  
+
 ## Basic Usage 
 ### Server 
 
