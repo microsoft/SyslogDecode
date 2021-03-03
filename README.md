@@ -10,7 +10,7 @@ Here is an example of what kind of decoding the **SyslogDecode** does. A syslog 
 <14>Mar  3 20:27:49 SDX3-5231-0200-2X0 snmp#supervisord: snmp-subagent WARNING:sonic_ax_impl:Invalid mgmt IP 22.111.33.44,2234:23d5:e0:25a3::55
 ``` 
 
-This string will parsed into a structure represented by the following json: 
+This string is parsed into a structure represented by the following json: 
 
 ```json
 {
