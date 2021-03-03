@@ -1,18 +1,25 @@
-﻿# Microsoft.Syslog package
+﻿# SyslogDecode package
 
 [Syslog](https://en.wikipedia.org/wiki/Syslog) is a logging protocol widely used in the industry. Syslog uses a client-server architecture where a syslog **server** listens for and logs messages coming from clients over the network.
 
-The **Microsoft.Syslog** package implements the components for building a syslog processing server. The server parses the input messages; it extracts the key values - a timestamp, host server, IP addresses, etc, and produces the output stream of strongly-typed records containing the message data. 
+The **SyslogDecode** package implements the components for building a syslog processing server. The server parses the input messages; it extracts the key values - a timestamp, host server, IP addresses, etc, and produces the output stream of strongly-typed records containing the message data. 
 
 ## Basic Usage 
 ### Server 
 
 To setup a server listening to incoming messages on a local port, create an instance of the *SyslogUdpPipeline*: 
+
 ```csharp
-  public void Setup() 
+class Program
+{
+  static SyslogUdpPipeline pipeline;
+  
+  static void Main(string[] args)
   {
-    this.pipeline = new SyslogUdpPipeline();
+    pipeline = new SyslogUdpPipeline();
+    ... ... 
   }
+}  
 ```
 
 The code uses all default values in optional parameters of the constructor. It sets up the UDP port listener on local port 514 (standard for syslog); creates a default syslog parser and connects it to the listener. There are several optional parameters in pipeline constructor that allow you to specify values other than defaults. 
@@ -62,8 +69,8 @@ public void ParseMessages(string[] messages, IObserver<ParsedSyslogMessage> cons
                {Message = msg,  ReceivedOn = DateTime.Now};
         streamParser.OnNext(rawMessage);
     }
-    streamParser.Unsubscribe(consumer); 
     streamParser.OnCompleted(); // drain all queues
+    streamParser.Unsubscribe(consumer); 
 }
 ```
 
@@ -97,12 +104,13 @@ Each component can be used independently. You can use the pipeline for parsing m
 
 The components implement [IObserver\<T\>/IObservable\<T\>](https://docs.microsoft.com/en-us/dotnet/api/system.iobserver-1) interfaces, so they can be easily connected as stream processors. All components are thread-safe and free-threaded.
 
-The **Microsoft.Syslog** package is heavily used in syslog processing coming from the entire Azure infrastructure (200K devices), had been proof-tested running for months under heavy load (100K messages per second) in a distributed, multi-node environment.  
+The **SyslogDecode** package had been battle-tested processing real high-volume message streams in Azure infrastructure.  
 
 ## Syslog Formats
 Syslog is essentially a human readable text message, with some internal structure that is not always strictly followed. There is no established standard for syslog message format. The earliest attempt was [RFC-3164](https://tools.ietf.org/html/rfc3164), but it was more like overview of established practices than a real standard to follow. The other document is [RFC-5424](https://tools.ietf.org/html/rfc5424), much more rigorous specification, but not many log providers follow this specification.
 
-There is also a key-value pairs format, used by some vendors (google 'Sophos syslog format'). And in some cases the syslog message does not follow any prescribed structure, and can be viewed as a plain text for human consumption.
-Given this absence of established standards, the challenge is make a best guess and to extract the important values like IP addresses or host names, so these values can be later used in analysis tools, or queried in log storage systems like Kusto. The parser in *Micorosoft.Syslog* detects the input message format, parses the message and extracts the information from it. 
+There is also a key-value pairs format, used by some vendors (google 'Sophos syslog format'). In some cases messages do not follow any prescribed structure, and can be viewed as a plain text for human consumption.
+
+Given this absence of established standards, the challenge is make a best guess and to extract the important values like IP addresses or host names, so these values can be later used in analysis tools or queried in log storage systems like Kusto. The parser in *SyslogDecode* detects/guesses the input message format, parses the message and extracts the information from it. 
  
 
