@@ -27,7 +27,7 @@ The code uses all default values in optional parameters of the constructor. It s
 To listen to the output stream of parsed messages, you can subscribe an observer (handler), a class implementating the *IObserver\<ParsedSyslogMessage\>* interface, to the output of the stream parser:  
 
 ```csharp
-    this.pipeline.StreamParser.Subscribe(parsedStreamHandler);
+    pipeline.StreamParser.Subscribe(parsedStreamHandler);
 ```
 
 An example of a handler would be a component that uploads/saves the messages to the persistent storage. 
@@ -36,7 +36,7 @@ The other way to listen to the output stream is by handling an output event:
  
 ```csharp
   // setup 
-  this.pipeline.StreamParser.ItemProcessed += StreamParser_ItemProcessed;
+  pipeline.StreamParser.ItemProcessed += StreamParser_ItemProcessed;
   
   private static void StreamParser_ItemProcessed(object sender, ItemEventArgs<ParsedSyslogMessage> e)
   {
@@ -48,13 +48,13 @@ The other way to listen to the output stream is by handling an output event:
 Once you finish setting up the pipeline, you must call the *Start* method:
  
 ```csharp
-    this.pipeline.Start(); 
+    pipeline.Start(); 
 ```
 
 You can use the syslog stream parser for processing messages that come from any source, not necessarilly from UDP port. You can instantiate the stream parser component directly, and feed it a stream of raw syslog messages: 
  
 ```csharp
-public void ParseMessages(string[] messages, IObserver<ParsedSyslogMessage> consumer)
+public static void ParseMessages(string[] messages, IObserver<ParsedSyslogMessage> consumer)
 {
     var streamParser = new SyslogStreamParser(
          parser: SyslogMessageParser.CreateDefault(), // - default message parser, 
