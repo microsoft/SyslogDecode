@@ -141,7 +141,7 @@ There is also a key-value pairs format, used by some vendors (google 'Sophos sys
 
 Given this absence of established standards, the challenge is make a best guess and to extract the important values like IP addresses or host names, so these values can be later used in analysis tools or queried in log storage systems like Kusto. The parser in *SyslogDecode* detects/guesses the input message format, parses the message and extracts the information from it. 
  
-## Contents of this repository - core library, tests, samples and tools
+## Projects in this repository
 This repository contains the following projects: 
 * *SyslogDecode* - the source code of the main *SyslogDecode* assembly/package. 
 * *SyslogDecode.Tests* - unit/integration tests for the components.
