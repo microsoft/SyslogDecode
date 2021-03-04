@@ -141,9 +141,10 @@ There is also a key-value pairs format, used by some vendors (google 'Sophos sys
 
 Given this absence of established standards, the challenge is make a best guess and to extract the important values like IP addresses or host names, so these values can be later used in analysis tools or queried in log storage systems like Kusto. The parser in *SyslogDecode* detects/guesses the input message format, parses the message and extracts the information from it. 
  
-## Contents of this this repository - core library, tests, samples and tools
+## Contents of this repository - core library, tests, samples and tools
 This repository contains the following projects: 
 * *SyslogDecode* - the source code of the main *SyslogDecode* assembly/package. 
 * *SyslogDecode.Tests* - unit/integration tests for the components.
-* *SyslogDecode.SampleApp* - a sample console application, sets up local UDP-fed syslog processing pipeline and sends a batch of simulated syslog message to the port. Verifies message counts, verifies that IP addresses were detected correctly.
+* *SyslogDecode.SampleApp* - a sample console application, sets up a local UDP-fed syslog processing pipeline and sends a batch of simulated syslog message to the port. Verifies message counts, verifies that IP addresses were extraced correctly from the messages.
 * *SyslogDecode.TestLoadApp* - a command line tool to send events from a *pcapng* file to the target UDP port. It can be used to test the server pipeline with real syslog messages. *Pcapng* file might be produced by capturing the syslog traffic on a network using a tool like [WireShark](https://en.wikipedia.org/wiki/Wireshark).
+
