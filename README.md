@@ -120,7 +120,7 @@ public void SendMessages(string targetIp, int targetPort, string[] messages)
 }
 ```
 
-## Major components
+## Major components in SyslogDecode
 
 * **SyslogMessageParser** - a customizable core parser of syslog messages. 
 * **SyslogStreamParser** - high-performance parsing engine consuming a stream of raw syslog messages and producing the stream of strongly-typed parsed records, ready for further analysis or uploading to the target log storage. Uses *SyslogMessageParser* for parsing individual messages.
@@ -135,10 +135,15 @@ The components implement [IObserver\<T\>/IObservable\<T\>](https://docs.microsof
 The **SyslogDecode** package had been battle-tested processing real high-volume message streams in Azure infrastructure.  
 
 ## Syslog Formats
-Syslog is essentially a human readable text message, with some internal structure that is not always strictly followed. There is no established standard for syslog message format. The earliest attempt was [RFC-3164](https://tools.ietf.org/html/rfc3164), but it was more like overview of established practices than a real standard to follow. The other document is [RFC-5424](https://tools.ietf.org/html/rfc5424), much more rigorous specification, but not many log providers follow this specification.
+Syslog is essentially a human readable text message, with some internal structure that is not always strictly followed. There is no established standard for syslog message format. The earliest attempt was [RFC-3164](https://tools.ietf.org/html/rfc3164), but it was more like overview of established practices than a real standard to follow. The other document is [RFC-5424](https://tools.ietf.org/html/rfc5424), much more rigorous specification, but not all log providers follow this specification.
 
 There is also a key-value pairs format, used by some vendors (google 'Sophos syslog format'). In some cases messages do not follow any prescribed structure, and can be viewed as a plain text for human consumption.
 
 Given this absence of established standards, the challenge is make a best guess and to extract the important values like IP addresses or host names, so these values can be later used in analysis tools or queried in log storage systems like Kusto. The parser in *SyslogDecode* detects/guesses the input message format, parses the message and extracts the information from it. 
  
-
+## Contents of this this repository - core library, tests, samples and tools
+This repository contains the following projects: 
+* *SyslogDecode* - the source code of the main *SyslogDecode* assembly/package. 
+* *SyslogDecode.Tests* - unit/integration tests for the components.
+* *SyslogDecode.SampleApp* - a sample console application, sets up local UDP-fed syslog processing pipeline and sends a batch of simulated syslog message to the port. Verifies message counts, verifies that IP addresses were detected correctly.
+* *SyslogDecode.TestLoadApp* - a command line tool to send events from a *pcapng* file to the target UDP port. It can be used to test the server pipeline with real syslog messages. *Pcapng* file might be produced by capturing the syslog traffic on a network using a tool like [WireShark](https://en.wikipedia.org/wiki/Wireshark).
